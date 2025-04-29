@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import { Character } from "@/entities/character";
 import { AppContainer } from "./styles/container";
 
