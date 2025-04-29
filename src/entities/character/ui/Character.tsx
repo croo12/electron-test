@@ -1,14 +1,6 @@
-import { type FC, useEffect, useRef } from 'react';
-import styled from 'styled-components';
-
-const CHARACTER_CONFIG = {
-  size: 20,
-  color: 'pink',
-  position: {
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2,
-  },
-} as const;
+import { type FC, useEffect, useRef } from "react";
+import styled from "styled-components";
+import { CHARACTER_CONFIG } from "../model/config";
 
 const CharacterCanvas = styled.canvas`
   position: fixed;
@@ -17,19 +9,19 @@ const CharacterCanvas = styled.canvas`
   pointer-events: none;
 `;
 
-const Character: FC = () => {
+export const Character: FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
-      console.warn('Canvas element not found');
+      console.warn("Canvas element not found");
       return;
     }
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) {
-      console.warn('Failed to get canvas context');
+      console.warn("Failed to get canvas context");
       return;
     }
 
@@ -60,14 +52,12 @@ const Character: FC = () => {
       drawCharacter(ctx);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return <CharacterCanvas ref={canvasRef} />;
 };
-
-export default Character; 

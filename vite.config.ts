@@ -9,19 +9,22 @@ export default defineConfig({
     react(),
     electron({
       main: {
-        entry: 'src/main/index.ts',
-      }
-    })
+        entry: "src/main/index.ts",
+      },
+    }),
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {
     rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+      },
       output: {
-        dir: 'dist-electron',
+        dir: "dist-electron",
         format: "esm",
         entryFileNames: "index.js",
         assetFileNames: "assets/[name].[ext]",
