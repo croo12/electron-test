@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     electron({
       main: {
-        entry: 'src/main/index.ts',
+        entry: "@/shared/electron",
       },
     }),
   ],

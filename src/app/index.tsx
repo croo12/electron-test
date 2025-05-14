@@ -1,11 +1,12 @@
 import type { FC } from "react";
-import { Character } from "@/entities/character";
 import { AppContainer } from "./styles/container";
+import CanvasPage, { MoveCharacterCanvas } from "@/pages/canvas";
 
 export const App: FC = () => {
   return (
     <AppContainer>
-      <Character />
+      {/* <CanvasPage /> */}
+      <MoveCharacterCanvas />
     </AppContainer>
   );
 };
