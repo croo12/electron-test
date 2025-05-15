@@ -1,13 +1,19 @@
-import { app, BrowserWindow } from 'electron';
-import { join } from 'node:path';
+import { app, BrowserWindow, Menu, Tray } from "electron";
+import { join } from "node:path";
+import { registIpcEvents } from "@/shared/electron";
+
+let tray: Tray | null = null;
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 400,
-    height: 400,
+    show: false,
     transparent: true,
     frame: false,
     alwaysOnTop: true,
+    fullscreen: true,
+    fullscreenable: true,
+    autoHideMenuBar: true,
+    skipTaskbar: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -15,13 +21,32 @@ function createWindow() {
   });
 
   win.setIgnoreMouseEvents(true, { forward: true });
+  win.setFullScreen(true);
+
+  registIpcEvents(win);
 
   // 개발 모드에서는 로컬 서버, 프로덕션에서는 빌드된 파일 로드
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL);
   } else {
-    win.loadFile(join(__dirname, '../dist/index.html'));
+    win.loadFile(join(__dirname, "../dist/index.html"));
   }
+
+  win.once("ready-to-show", () => {
+    win.showInactive();
+  });
 }
 
-app.whenReady().then(createWindow); 
+function createTray() {
+  tray = new Tray(join(__dirname, "public/tray-icon.png"));
+  const contextMenu = Menu.buildFromTemplate([
+    { label: "종료", click: () => app.quit() },
+  ]);
+  tray.setToolTip("Desktop Character 백그라운드 서비스");
+  tray.setContextMenu(contextMenu);
+}
+
+app.whenReady().then(() => {
+  createWindow();
+  createTray();
+});

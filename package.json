@@ -2,10 +2,17 @@
   "name": "desktop-character",
   "version": "1.0.0",
   "description": "귀여운 데스크톱 캐릭터 애플리케이션",
-  "main": "dist-electron/index.js",
+  "main": "dist-electron/index.cjs",
+  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev:renderer": "vite",
+    "dev:main": "vite build --config electron.vite.config.ts --watch",
+    "dev": "concurrently -k -n RENDERER,MAIN,ELECTRON \"yarn dev:renderer\" \"yarn dev:main\" \"wait-on http://localhost:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .\"",
+    "build:renderer": "vite build",
+    "build:main": "vite build --config electron.vite.config.ts",
+    "build": "yarn build:renderer && yarn build:main",
+    "start:prod": "yarn build && electron dist-electron/index.cjs",
+    "dist": "yarn build && electron-builder",
     "electron": "electron ."
   },
   "dependencies": {
@@ -17,9 +24,13 @@
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
     "electron": "^28.1.3",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
-    "vite-plugin-electron": "^0.15.5"
+    "vite-plugin-electron": "^0.15.5",
+    "vite-tsconfig-paths": "^5.1.4",
+    "wait-on": "^8.0.3"
   }
 }

@@ -1,4 +1,3 @@
-import { ipcRenderer } from "@/shared/electron";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 // Ball 타입 정의
@@ -97,13 +96,6 @@ export function MoveCharacterCanvas() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
-    // const resizeCanvas = () => {
-    //   canvas.width = window.innerWidth;
-    //   canvas.height = window.innerHeight;
-    // };
-    // resizeCanvas();
-    // window.addEventListener("resize", resizeCanvas);
 
     let animationFrameId: number;
     let t = 0; // 시간 변수
