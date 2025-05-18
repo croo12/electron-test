@@ -1,3 +1,4 @@
+import { ipcRenderer } from "@/shared/electron";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 // Ball 타입 정의
@@ -17,7 +18,7 @@ const initialBalls: Ball[] = [
     offsetX: -150,
     offsetY: 0,
     amplitude: 30,
-    radius: 20,
+    radius: 10,
     color: "white",
     phase: 0,
   },
@@ -25,7 +26,7 @@ const initialBalls: Ball[] = [
     offsetX: 0,
     offsetY: 0,
     amplitude: 50,
-    radius: 15,
+    radius: 10,
     color: "skyblue",
     phase: Math.PI / 2,
   },
@@ -33,8 +34,16 @@ const initialBalls: Ball[] = [
     offsetX: 150,
     offsetY: 0,
     amplitude: 40,
-    radius: 25,
+    radius: 10,
     color: "pink",
+    phase: Math.PI,
+  },
+  {
+    offsetX: 40,
+    offsetY: 10,
+    amplitude: 40,
+    radius: 10,
+    color: "green",
     phase: Math.PI,
   },
 ];
@@ -117,10 +126,10 @@ export function MoveCharacterCanvas() {
 
       const isOverBall = isPointerOnBall(clickX, clickY, time);
 
-      // ipcRenderer({
-      //   id: "ignore-mouse-event",
-      //   payload: isOverBall,
-      // });
+      ipcRenderer({
+        id: "ignore-mouse-event",
+        payload: isOverBall,
+      });
     };
 
     window.addEventListener("mousemove", handleMouseMove);

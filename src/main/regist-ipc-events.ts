@@ -1,6 +1,6 @@
 import { type BrowserWindow, ipcMain as nativeIpcMain } from "electron";
-import type { IpcEvent } from "../types";
-import { IpcEventList } from "../constants";
+import type { IpcSendEvent } from "@/shared/electron";
+import { IpcEventList } from "./constants";
 
 export function registIpcEvents(win: BrowserWindow) {
   for (const eventId of IpcEventList) {
@@ -10,9 +10,10 @@ export function registIpcEvents(win: BrowserWindow) {
           eventId,
           (
             event,
-            payload: Extract<IpcEvent, { id: typeof eventId }>["payload"]
+            payload: Extract<IpcSendEvent, { id: typeof eventId }>["payload"]
           ) => {
-            console.log(event);
+            process.stdout.write(JSON.stringify(event));
+            process.stdout.write(JSON.stringify(payload));
             win.setIgnoreMouseEvents(payload, { forward: true });
           }
         );

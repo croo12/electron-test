@@ -1,6 +1,5 @@
-import { ipcRenderer as nativeIpcRenderer } from "electron";
-import type { IpcEvent } from "../types";
+import type { IpcSendEvent } from "../types";
 
-export function ipcRenderer(parameter: IpcEvent) {
-  return nativeIpcRenderer.send(parameter.id, parameter.payload);
+export function ipcRenderer(parameter: IpcSendEvent) {
+  return window.electronAPI.send(parameter.id, parameter.payload);
 }

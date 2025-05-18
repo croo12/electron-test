@@ -1,6 +1,6 @@
 import { app, BrowserWindow, Menu, Tray } from "electron";
 import { join } from "node:path";
-import { registIpcEvents } from "@/shared/electron";
+import { registIpcEvents } from "./regist-ipc-events";
 
 let tray: Tray | null = null;
 
@@ -15,6 +15,7 @@ function createWindow() {
     autoHideMenuBar: true,
     skipTaskbar: true,
     webPreferences: {
+      preload: join(__dirname, "src/main/preload.ts"),
       nodeIntegration: true,
       contextIsolation: false,
     },
